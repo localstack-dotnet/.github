@@ -38,7 +38,7 @@ LocalStack's [2026.03.0 release][auth-release] documents the unified-image Auth 
 
 ## Next — execute validated upgrades and consumer adoption
 
-Follow the actual dependency graph: **LocalStack image → Aspire Hosting integration → BadgeSmith and applicable demos**, plus direct Client consumers. Select the latest compatible published channel and record reproducible pins; for **AWSSDK.Core**, deliberately evaluate a recent, widely downloaded compatible candidate instead of automatically choosing the highest version. The [proposed Client maintenance playbook (PR #58)][maintenance58] describes the review procedure and is awaiting merge.
+Follow the actual dependency graph: **LocalStack image → Aspire Hosting integration → BadgeSmith and applicable demos**, plus direct Client consumers. Select the latest compatible published channel and record reproducible pins; for **AWSSDK.Core**, deliberately evaluate a recent, widely downloaded compatible candidate instead of automatically choosing the highest version. The [Client maintenance playbook][maintenance-playbook] describes the review procedure.
 
 Refresh each consumer's declared references, then separately establish the restored transitive graph and tested runtime. The checked-in baseline illustrates why each edge matters:
 
@@ -92,7 +92,7 @@ Update this organization view when priorities, cross-product dependencies or evi
 [auth-release]: https://blog.localstack.cloud/localstack-for-aws-release-2026-03-0/
 [auth-tokens]: https://docs.localstack.cloud/aws/getting-started/auth-token/
 [aws-credentials]: https://docs.localstack.cloud/aws/connecting/credentials/
-[maintenance58]: https://github.com/localstack-dotnet/localstack-dotnet-client/pull/58
+[maintenance-playbook]: https://github.com/localstack-dotnet/localstack-dotnet-client/blob/master/docs/engineering/maintenance-playbook.md
 [aspire-packages]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/7ad7698e9f8c5c5e1ee265f405a2e7d3ea49bc66/Directory.Packages.props
 [aspire-nuspec]: https://api.nuget.org/v3-flatcontainer/localstack.aspire.hosting/13.4.0/localstack.aspire.hosting.nuspec
 [badge-packages]: https://github.com/localstack-dotnet/badge-smith/blob/fdf4c4a13df477bae6d4607ecfd922469faec2cc/Directory.Packages.props
