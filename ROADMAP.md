@@ -2,7 +2,7 @@
 
 Last reviewed: 2026-10-25
 
-This is the organization view of priorities and dependencies across the LocalStack .NET projects. **Now, Next and Later are planning stages, not release promises.** A proposal or open issue needs an accepted scope before delivery; merged source, a published package and verified runtime behavior are separate milestones. Product roadmaps own detailed sequencing and acceptance criteria.
+This is the organization view of priorities and dependencies across the LocalStack .NET projects. **Now, Next and Later are planning stages, not release promises.** A proposal or open issue needs an accepted scope before delivery; merged source, a published package and verified runtime behavior are separate milestones. Product roadmaps own detailed sequencing and acceptance criteria: the Client keeps its open work in this file, while [Aspire Hosting](roadmap/aspire-hosting.md) and [BadgeSmith](roadmap/badgesmith.md) keep theirs under `roadmap/`. Product repositories hold current behavior and canon, not roadmaps.
 
 ## Products and current baseline
 
@@ -70,8 +70,8 @@ Update this organization view when priorities, cross-product dependencies or evi
 [client-feed]: https://api.nuget.org/v3-flatcontainer/localstack.client/index.json
 [extensions-feed]: https://api.nuget.org/v3-flatcontainer/localstack.client.extensions/index.json
 [aspire-feed]: https://api.nuget.org/v3-flatcontainer/localstack.aspire.hosting/index.json
-[aspire-roadmap]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/master/docs/ROADMAP.md
-[badge-roadmap]: https://github.com/localstack-dotnet/badge-smith/blob/master/docs/ROADMAP.md
+[aspire-roadmap]: roadmap/aspire-hosting.md
+[badge-roadmap]: roadmap/badgesmith.md
 [demo-roadmap]: https://github.com/localstack-dotnet/localstack-serverless-dotnet-demo/blob/master/README.md#roadmap
 [aspire36]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/pull/36
 [aspire-changelog]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/7ad7698e9f8c5c5e1ee265f405a2e7d3ea49bc66/CHANGELOG.md
