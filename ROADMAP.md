@@ -37,7 +37,7 @@ Refresh each consumer's declared references, then separately establish the resto
 
 | Consumer | Declared LocalStack dependencies at review |
 | --- | --- |
-| [Aspire source][aspire-packages] | Client 2.0.0 / Extensions 2.0.1; source dependencies differ from the [published 13.4.0 package][aspire-nuspec]. Its [WS3][aspire-roadmap] plans to remove the hosting package's Client dependency. |
+| [Aspire source][aspire-packages] | Client 3.0.0 / Extensions 3.0.0 on `master` since 2026-11-14, unreleased; the [published 13.4.0 package][aspire-nuspec] still declares 2.x. Its [WS3][aspire-roadmap] plans to remove the hosting package's Client dependency. |
 | [BadgeSmith][badge-packages] | Aspire Hosting 13.4.0; Client 2.0.0 / Extensions 2.0.1. |
 | [Serverless Demo][demo-packages] | Aspire Hosting 13.4.0; Client 2.0.0 / Extensions 2.0.0, with [direct application references][demo-profile-project] and an [AppHost using the older overload][demo-apphost]. |
 
@@ -48,7 +48,7 @@ For each accepted upgrade, qualify the relevant client creation/configuration, A
 | Lane | Candidate groups and boundaries |
 | --- | --- |
 | Client configuration | [Application environment precedence (#25)][client25] is a non-breaking candidate. [Legacy-port removal (#26)][client26] is breaking and belongs to a future major. Configuration parity (#32) was closed as not planned on 2026-10-25. |
-| Aspire reliability and API | Reproduce [socket/DOCKER_HOST (#35)][aspire35], [multi-resource health identity (#34)][aspire34] and [host/container port topology (#24)][aspire24]. Product roadmap work also covers backend intent/auto-wiring, callback/bootstrap/lifecycle tests, options/CDK ordering and package/API quality. |
+| Aspire reliability and API | [Multi-resource health identity (#34)][aspire34] and the supported [host/container port topologies (#24)][aspire24] are fixed on `master`, unreleased. [Socket/DOCKER_HOST (#35)][aspire35] still needs behavioural evidence and does not gate 13.6.0. Product roadmap work also covers backend intent/auto-wiring, callback/bootstrap/lifecycle tests, options/CDK ordering and package/API quality. |
 | Aspire integration research | Licensed features/Lambda debugging and persistence/image options; SES provisioning [#26][aspire26]; dashboard/discovery; endpoints [#12][aspire12]; analyzer, TypeScript/ATS and catalog strategy; upstream Lambda Test Tool/Core and API Gateway reproducers. Hybrid mode, Compose publication, browser/presigned guidance and CodeQL rechecks remain inbox proposals. [Product roadmap][aspire-roadmap], [upstream watch][aspire-upstream]. |
 | BadgeSmith | Qualify exact deployed artifact/source and effective hosted runtime before claiming ARM64/AL2023 or INIT/memory improvements. The [deploy-and-smoke workflow succeeded][badge-deploy]; complete provenance and performance remain unproven. Keep measurement design separate from a deferred performance CLI. Operational candidates include logging, retention/PITR, abuse controls, retries/alerts and publication/action polish. [#1][badge1] is a preventive route-buffer guard; [#4][badge4] requests CI prerelease-channel selection. [Product roadmap][badge-roadmap]. |
 | Serverless Demo | Its foundation is complete in source. Lambda deployment, API Gateway, Blazor UI and modular CDK examples precede proposed tests/CI, a CloudFormation alternative and advanced multi-region/EventBridge/Step Functions scenarios in its [own phases][demo-roadmap]. The [production-deployment question (#8)][demo8] does not accept that scope or promise an AWS rollout. |
