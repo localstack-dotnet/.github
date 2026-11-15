@@ -13,7 +13,7 @@ This is the organization view of priorities and dependencies across the LocalSta
 | [BadgeSmith](https://github.com/localstack-dotnet/badge-smith) | Package and test badges; an integration consumer and deployment example. [Product roadmap][badge-roadmap]. |
 | [Serverless Demo](https://github.com/localstack-dotnet/localstack-serverless-dotnet-demo) | End-to-end application examples. [Demo roadmap phases][demo-roadmap]. |
 
-The public NuGet stable baseline at review is **LocalStack.Client 3.0.0**, **LocalStack.Client.Extensions 3.0.0** (both published 2026-10-25, [release][client-release]) and **LocalStack.Aspire.Hosting 13.4.0**. Aspire [PR #36][aspire36] is merged; its 13.6.0 source version is not present in the public stable feed at this snapshot. Release and consumer planning must check the intended feed/channel again. [Client feed][client-feed], [Extensions feed][extensions-feed], [Aspire feed][aspire-feed], [Aspire changelog][aspire-changelog].
+The public NuGet stable baseline at review is **LocalStack.Client 3.0.0**, **LocalStack.Client.Extensions 3.0.0** (both published 2026-10-25, [release][client-release]) and **LocalStack.Aspire.Hosting 13.6.0** (published 2026-11-15, [release][aspire-release]). Release and consumer planning must check the intended feed/channel again. [Client feed][client-feed], [Extensions feed][extensions-feed], [Aspire feed][aspire-feed], [Aspire changelog][aspire-changelog].
 
 ## Now — adopt Client 3.0.0 and close the image gap
 
@@ -23,7 +23,7 @@ Client 3.0.0 is the first step of the dependency graph below. A dogfood of the C
 
 ### Shared baseline: authenticated current-image testing
 
-The Client side is done: its functional suite runs every scenario against the last token-free image (4.14.0) and the current calendar-versioned image (2026.10.2, workspace CI Auth Token from an organization secret). [Client quality gates][client-quality]. Aspire still declares 4.12.0 ([Aspire image declaration][aspire-image]) and owns native `LOCALSTACK_AUTH_TOKEN` support ([Aspire #25][aspire25]). **LocalStack Auth Tokens activate the platform; AWS API credentials configure/sign service requests.** Keep their setup and troubleshooting distinct. [Token documentation][auth-tokens], [AWS-compatible credentials][aws-credentials].
+The Client side is done: its functional suite runs every scenario against the last token-free image (4.14.0) and the current calendar-versioned image (2026.10.2, workspace CI Auth Token from an organization secret). [Client quality gates][client-quality]. Aspire 13.6.0 defaults to the current image (2026.10.6) with native activation-token support and offers the token-free 4.14.0 as an explicit legacy preset ([Aspire image declaration][aspire-image], [Aspire #25][aspire25]). **LocalStack Auth Tokens activate the platform; AWS API credentials configure/sign service requests.** Keep their setup and troubleshooting distinct. [Token documentation][auth-tokens], [AWS-compatible credentials][aws-credentials].
 
 ### Client: 3.0.x candidates
 
@@ -37,7 +37,7 @@ Refresh each consumer's declared references, then separately establish the resto
 
 | Consumer | Declared LocalStack dependencies at review |
 | --- | --- |
-| [Aspire source][aspire-packages] | Client 3.0.0 / Extensions 3.0.0 on `master` since 2026-11-14, unreleased; the [published 13.4.0 package][aspire-nuspec] still declares 2.x. Its [WS3][aspire-roadmap] plans to remove the hosting package's Client dependency. |
+| [Aspire source][aspire-packages] | Client 3.0.0 / Extensions 3.0.0, published in [13.6.0][aspire-nuspec]. Its [WS3][aspire-roadmap] plans to remove the hosting package's Client dependency. |
 | [BadgeSmith][badge-packages] | Aspire Hosting 13.4.0; Client 2.0.0 / Extensions 2.0.1. |
 | [Serverless Demo][demo-packages] | Aspire Hosting 13.4.0; Client 2.0.0 / Extensions 2.0.0, with [direct application references][demo-profile-project] and an [AppHost using the older overload][demo-apphost]. |
 
@@ -48,7 +48,7 @@ For each accepted upgrade, qualify the relevant client creation/configuration, A
 | Lane | Candidate groups and boundaries |
 | --- | --- |
 | Client configuration | [Application environment precedence (#25)][client25] is a non-breaking candidate. [Legacy-port removal (#26)][client26] is breaking and belongs to a future major. Configuration parity (#32) was closed as not planned on 2026-10-25. |
-| Aspire reliability and API | [Multi-resource health identity (#34)][aspire34] and the supported [host/container port topologies (#24)][aspire24] are fixed on `master`, unreleased. [Socket/DOCKER_HOST (#35)][aspire35] still needs behavioural evidence and does not gate 13.6.0. Product roadmap work also covers backend intent/auto-wiring, callback/bootstrap/lifecycle tests, options/CDK ordering and package/API quality. |
+| Aspire reliability and API | [Multi-resource health identity (#34)][aspire34] and the supported [host/container port topologies (#24)][aspire24] are fixed and released in 13.6.0. [Socket/DOCKER_HOST (#35)][aspire35] still needs behavioural evidence and does not gate 13.6.0. Product roadmap work also covers backend intent/auto-wiring, callback/bootstrap/lifecycle tests, options/CDK ordering and package/API quality. |
 | Aspire integration research | Licensed features/Lambda debugging and persistence/image options; SES provisioning [#26][aspire26]; dashboard/discovery; endpoints [#12][aspire12]; analyzer, TypeScript/ATS and catalog strategy; upstream Lambda Test Tool/Core and API Gateway reproducers. Hybrid mode, Compose publication, browser/presigned guidance and CodeQL rechecks remain inbox proposals. [Product roadmap][aspire-roadmap], [upstream watch][aspire-upstream]. |
 | BadgeSmith | Qualify exact deployed artifact/source and effective hosted runtime before claiming ARM64/AL2023 or INIT/memory improvements. The [deploy-and-smoke workflow succeeded][badge-deploy]; complete provenance and performance remain unproven. Keep measurement design separate from a deferred performance CLI. Operational candidates include logging, retention/PITR, abuse controls, retries/alerts and publication/action polish. [#1][badge1] is a preventive route-buffer guard; [#4][badge4] requests CI prerelease-channel selection. [Product roadmap][badge-roadmap]. |
 | Serverless Demo | Its foundation is complete in source. Lambda deployment, API Gateway, Blazor UI and modular CDK examples precede proposed tests/CI, a CloudFormation alternative and advanced multi-region/EventBridge/Step Functions scenarios in its [own phases][demo-roadmap]. The [production-deployment question (#8)][demo8] does not accept that scope or promise an AWS rollout. |
@@ -73,22 +73,22 @@ Update this organization view when priorities, cross-product dependencies or evi
 [aspire-roadmap]: roadmap/aspire-hosting.md
 [badge-roadmap]: roadmap/badgesmith.md
 [demo-roadmap]: https://github.com/localstack-dotnet/localstack-serverless-dotnet-demo/blob/master/README.md#roadmap
-[aspire36]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/pull/36
-[aspire-changelog]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/7ad7698e9f8c5c5e1ee265f405a2e7d3ea49bc66/CHANGELOG.md
+[aspire-changelog]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/13.6.0/CHANGELOG.md
 [factory-adr]: https://github.com/localstack-dotnet/localstack-dotnet-client/blob/2f19e86b6448095d57a0ee31833d630f56975d33/docs/adr/0002-aws-setup-constructor-compatibility.md
-[aspire-image]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/7ad7698e9f8c5c5e1ee265f405a2e7d3ea49bc66/src/Aspire.Hosting.LocalStack/Container/LocalStackContainerImageTags.cs
+[aspire-image]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/13.6.0/src/Aspire.Hosting.LocalStack/Container/LocalStackContainerImageTags.cs
 [auth-tokens]: https://docs.localstack.cloud/aws/getting-started/auth-token/
 [aws-credentials]: https://docs.localstack.cloud/aws/connecting/credentials/
 [maintenance-playbook]: https://github.com/localstack-dotnet/localstack-dotnet-client/blob/master/docs/engineering/maintenance-playbook.md
-[aspire-packages]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/7ad7698e9f8c5c5e1ee265f405a2e7d3ea49bc66/Directory.Packages.props
-[aspire-nuspec]: https://api.nuget.org/v3-flatcontainer/localstack.aspire.hosting/13.4.0/localstack.aspire.hosting.nuspec
+[aspire-packages]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/13.6.0/Directory.Packages.props
+[aspire-nuspec]: https://api.nuget.org/v3-flatcontainer/localstack.aspire.hosting/13.6.0/localstack.aspire.hosting.nuspec
+[aspire-release]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/releases/tag/13.6.0
 [badge-packages]: https://github.com/localstack-dotnet/badge-smith/blob/fdf4c4a13df477bae6d4607ecfd922469faec2cc/Directory.Packages.props
 [demo-packages]: https://github.com/localstack-dotnet/localstack-serverless-dotnet-demo/blob/6bc6fdfb6fa7c2691104cfd22e4f2a89525ee29a/Directory.Packages.props
 [demo-profile-project]: https://github.com/localstack-dotnet/localstack-serverless-dotnet-demo/blob/6bc6fdfb6fa7c2691104cfd22e4f2a89525ee29a/src/LocalStack.Services.ProfileApi/LocalStack.Services.ProfileApi.csproj
 [demo-apphost]: https://github.com/localstack-dotnet/localstack-serverless-dotnet-demo/blob/6bc6fdfb6fa7c2691104cfd22e4f2a89525ee29a/src/LocalStack.Host/AppHost.cs
 [client-security]: https://github.com/localstack-dotnet/localstack-dotnet-client/blob/2f19e86b6448095d57a0ee31833d630f56975d33/.github/SECURITY.md
 [client-changelog]: https://github.com/localstack-dotnet/localstack-dotnet-client/blob/2f19e86b6448095d57a0ee31833d630f56975d33/CHANGELOG.md
-[aspire-upstream]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/7ad7698e9f8c5c5e1ee265f405a2e7d3ea49bc66/docs/upstream-watch.md
+[aspire-upstream]: https://github.com/localstack-dotnet/dotnet-aspire-for-localstack/blob/13.6.0/docs/upstream-watch.md
 [badge-deploy]: https://github.com/localstack-dotnet/badge-smith/actions/runs/39049154134
 [client50]: https://github.com/localstack-dotnet/localstack-dotnet-client/issues/50
 [client27]: https://github.com/localstack-dotnet/localstack-dotnet-client/issues/27
