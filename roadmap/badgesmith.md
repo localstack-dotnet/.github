@@ -31,6 +31,7 @@ workstreams may link a temporary plan; new ideas land in Inbox / Untriaged until
 | Template construction — retained allocation candidate | current-package local gates passed; separate hosted PR/delivery pending | [current validation](https://github.com/localstack-dotnet/badge-smith/blob/bc7ed07860ec4b0e702add6370c2636daccb2adf/docs/research/2026-10-19-template-construction-release.md) / [historical study](https://github.com/localstack-dotnet/badge-smith/blob/bc7ed07860ec4b0e702add6370c2636daccb2adf/docs/research/2026-10-18-template-construction-optimization.md) | Fresh constructor RED **752>751 B** → GREEN **392 B**, **629 API +4 CDK**, Node104+14/Slopwatch0; new Native build0diagnostics and AL2023 **162/162** compatibility responses/upstream. Old **4,152→2,520 B** Native counter remains historical; no new speed/RSS/SLO claim. |
 | Cold-request attribution — provider, TLS and official AL2023 | local investigation recorded; certificate-directory product change rejected as unqualified | [dated investigation](https://github.com/localstack-dotnet/badge-smith/blob/bc7ed07860ec4b0e702add6370c2636daccb2adf/docs/research/2026-10-19-native-first-request-attribution.md) / [offline evidence replay](https://github.com/localstack-dotnet/badge-smith/blob/bc7ed07860ec4b0e702add6370c2636daccb2adf/docs/research/reproducers/2026-10-19-native-first-request/README.md) | Existing BDN completed **8 out-of-process cases / 24 Actual samples**. Framing was not the dominant local first-request cost. Official AL2023 default-only Native cohort: **162 responses**, first feature **35.1–38.6 ms**, post81 RSS **29,100–29,124 KiB**; not Lambda INIT/memory or a production gain. All 21 observed processes, including one invalid cohort, remain separated in the public numeric packet. Next: application-startup attribution and one code candidate; no new LocalStack deployment or production collection performed. |
 | Latest-stable dependency refresh | deployed in `2846586` through PR #11 | [delivery evidence](https://github.com/localstack-dotnet/badge-smith/blob/bc7ed07860ec4b0e702add6370c2636daccb2adf/docs/research/2026-10-19-package-refresh.md#remaining-boundaries-and-continuation) / [Native smoke](https://github.com/localstack-dotnet/badge-smith/blob/bc7ed07860ec4b0e702add6370c2636daccb2adf/docs/research/baselines/2026-10-19-package-native-smoke.json) | Latest stable packages; **579 API +4 CDK**, Native/AL2023 compatibility and hosted CI passed. New master artifact promoted by deploy39305427499/1; Code.S3Key-only live diff and **6 GET smoke checks passed**. ARM64 ZIP **6,027,393 B**, user accepted27,393B design-target deviation; not a target PASS/AWS limit. H2 excluded; INIT/memory remain unqualified. |
+| GitHub Packages credential expiry (2026-11-15 outage) | operationally fixed on 2026-11-15; detection and error-semantics hardening pending | Internal evidence, 2026-11-15, "GitHub Packages badge 401: expired org PATs, fix and open work (handoff)" | The per-org GitHub PATs behind the GitHub Packages badge had expired, so every GitHub Packages badge answered an empty-body 401 (even for nonexistent packages) while NuGet and test badges kept working. New `read:packages` tokens were installed for both organizations and the badges were verified live; both tokens expire on 2027-11-14. The failure was silent: the GitHub-401 branch logs nothing and a 4xx raises no 5xx alarm. Remaining work is in the Backlog item below. |
 
 The accepted 2026-10-16 closeout records successful master CI and check-time artifact
 eligibility, but no Lambda/stack deployment during that closeout. It does not establish
@@ -49,6 +50,26 @@ invocations and hide API behavior.
 Scoped work waiting to start. Promote an item into Status & Plan Mapping and link its
 detailed plan when it becomes active.
 
+- **GitHub Packages credential health and error semantics** (2026-11-15): Make the next token
+  expiry visible before it breaks badges, in this order. (1) Log the currently silent GitHub
+  401/403 branch in `GitHubPackageService` and log the days left from GitHub's
+  `github-authentication-token-expiration` response header (observed on a real response); use
+  source-generated, AOT-safe logging and fold it into the logging-hygiene item below where it
+  overlaps. (2) Add a CloudWatch metric filter and alarm with an email notification in the production
+  CDK; a production deploy is ask-first and must target `BadgeSmithStack` explicitly. (3) Decide
+  the status mapping: unknown organization to 404, and a missing secret for a known organization
+  or a GitHub 401/403 to 502 with a JSON body, because 401 wrongly tells a caller of a public
+  endpoint to authenticate, hides the outage from 5xx metrics and probably prevents `stale-if-error`
+  (inferred from the cache contract, untested). This changes what the contract test for the
+  unknown-organization case asserts, so it needs an explicit behavior-change request, plus
+  runtime-and-routing and consumer-guide updates; its value is lower than (1) and (2). (4) Optional
+  daily canary workflow in this repository that fetches three known-good badge URLs and fails on
+  any non-200 (detects after the fact, not before expiry; outward-facing, ask first). (5) Add an
+  explicit Package-token rotation section to `tools/README.md` in the product repository and correct
+  its default secret-name example, since the mapping row, not the seed file's `name`, determines the
+  real name. (6) Set a reminder for about 2027-10-31 (tokens expire 2027-11-14). Evidence and
+  traps: internal evidence, 2026-11-15, "GitHub Packages badge 401: expired org PATs, fix and
+  open work (handoff)".
 - **Logging hygiene — remaining source-generated logging migration** (2026-07-02): The first
   CORS slice (1000/`CorsPreflightRequest`) and the second-wave `LambdaRequestProcessor` slice
   (1001/`LambdaRequestHandling`, 1002/`LambdaUnhandledError`) are merged above. For the
